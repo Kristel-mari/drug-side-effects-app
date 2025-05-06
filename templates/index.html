@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Drug Side Effects Lookup</title>
+</head>
+<body>
+    <h1>Drug Side Effects App</h1>
+
+    <form method="POST">
+        <label for="search_type">Search by:</label>
+        <select name="search_type" id="search_type">
+            <option value="drug">Drug Name</option>
+            <option value="condition">Condition</option>
+        </select><br><br>
+
+        <input type="text" name="query" placeholder="Enter your search..." required>
+        <button type="submit">Search</button>
+    </form>
+
+    {% if result %}
+        <h2>Results:</h2>
+        {% if query_type == "side_effects" %}
+            <ul>
+                {% for item in result %}
+                    <li><strong>{{ item['drug_name'] }}</strong> ({{ item['medical_condition'] }}) — {{ item['side_effects'] }}</li>
+                {% endfor %}
+            </ul>
+        {% elif query_type == "drugs" %}
+            <ul>
+                {% for item in result %}
+                    <li><strong>{{ item['drug_name'] }}</strong> for {{ item['medical_condition'] }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>{{ result }}</p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>

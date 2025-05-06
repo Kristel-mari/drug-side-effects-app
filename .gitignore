@@ -1,0 +1,49 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pdb
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# VS Code settings
+.vscode/
+
+# Environment variables / secrets
+.env
+
+# Virtual environment folders
+venv/
+env/
+ENV/
+.venv/
+.ENV/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# CSV data or other large local files
+Data/*.csv
+*.zip
+
+# Flask instance folder
+instance/
+
+# Compiled files
+*.so
+
+# Backup files
+*.bak
+*.swp
+
+# Flask debug files
+*.db
+*.sqlite3
+*.sqlite
