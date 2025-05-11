@@ -12,6 +12,14 @@
 </head>
 <body class="bg-light">
 
+<!--Info banner that scrolls with the page -->
+<div class="alert alert-info text-center fixed-top mb-0" role="alert" style="z-index: 1050;">
+    ℹ️ This app is for informational purposes only and is not a substitute for professional medical advice.
+</div>
+
+<!-- Spacer to prevent content from being hidden under fixed banner -->
+<div style="margin-top: 60px;"></div>
+
 <div class="container py-5">
     <h1 class="mb-4 text-center">℞ Side Effects and Medication Diagnostics</h1>
 
@@ -66,28 +74,44 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Autocomplete Script -->
+<!-- Autocomplete script -->
 <script>
-$(function() {
-    function setupAutocomplete() {
-        const searchType = $("#search_type").val();
-
-        $("#query_input").autocomplete({
-            source: function(request, response) {
-                $.getJSON("/autocomplete", {
-                    type: searchType,
-                    term: request.term
-                }, response);
-            },
-            minLength: 2
+    $(function () {
+        let initialized = false;
+    
+        function setupAutocomplete() {
+            const searchType = $("#search_type").val();
+            if (!searchType) return;
+    
+            if (initialized) {
+                $("#query_input").autocomplete("destroy");
+            }
+    
+            $("#query_input").autocomplete({
+                source: function (request, response) {
+                    $.getJSON("/autocomplete", {
+                        type: searchType,
+                        term: request.term
+                    }, response);
+                },
+                minLength: 2
+            });
+    
+            initialized = true;
+        }
+    
+        // Initialize if a search type is already selected
+        if ($("#search_type").val()) {
+            setupAutocomplete();
+        }
+    
+        // Reinitialize when user changes search type
+        $("#search_type").on("change", function () {
+            $("#query_input").val("");
+            setupAutocomplete();
         });
-    }
-
-    $("#search_type").on("change", function() {
-        $("#query_input").val(""); // Clear input when changing search type
-        setupAutocomplete();
     });
-});
-</script>
+    </script>
+    
 </body>
 </html>
