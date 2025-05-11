@@ -1,11 +1,11 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import pandas as pd
 
 app = Flask(__name__)
 
-# Load the dataset
+# Load and clean the dataset
 df = pd.read_csv("Data/DrugsData.zip.csv")
-df.columns = df.columns.str.strip().str.lower()  # Clean column names
+df.columns = df.columns.str.strip().str.lower()
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -27,7 +27,6 @@ def index():
         elif search_type == "condition":
             matches = df[df['medical_condition'].str.lower().str.contains(query)]
             if not matches.empty:
-                # Drop duplicates and sort by drug_name
                 result = (
                     matches[['medical_condition', 'drug_name']]
                     .drop_duplicates()
@@ -40,5 +39,23 @@ def index():
 
     return render_template("index.html", result=result, query_type=query_type)
 
+# Autocomplete route
+@app.route("/autocomplete", methods=["GET"])
+def autocomplete():
+    search_type = request.args.get("type")
+    term = request.args.get("term", "").lower()
+
+    if search_type == "drug":
+        matches = df[df["drug_name"].fillna("").str.lower().str.startswith(term)]
+        suggestions = matches["drug_name"].dropna().drop_duplicates().head(10).tolist()
+
+    elif search_type == "condition":
+        matches = df[df["medical_condition"].fillna("").str.lower().str.startswith(term)]
+        suggestions = matches["medical_condition"].dropna().drop_duplicates().head(10).tolist()
+
+    else:
+        suggestions = []
+
+    return jsonify(suggestions)
 if __name__ == "__main__":
     app.run(debug=True)
