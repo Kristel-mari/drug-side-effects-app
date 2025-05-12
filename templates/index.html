@@ -13,20 +13,23 @@
     <style>
         body {
             font-size: 18px;
+            padding-top: 60px;
         }
         @media (max-width: 576px) {
             body {
                 font-size: 20px;
             }
         }
-    </style>
+    </style>    
 </head>
 <body class="bg-light">
 
-<div class="alert alert-info text-center fixed-top mb-0 fs-5" role="alert" style="z-index: 1050;">
-    ℹ️ This app is for informational purposes only and is not a substitute for professional medical advice.
-</div>
-<div style="margin-top: 60px;"></div>
+    <header style="height: 56px;">
+        <div class="alert alert-info text-center fixed-top fs-6 d-flex align-items-center justify-content-center" role="alert" style="height: 56px; margin: 0; z-index: 1050;">
+          ℹ️ This app is for informational purposes only and is not a substitute for professional medical advice.
+        </div>
+      </header>
+      
 
 <div class="container-fluid px-3 py-4">
     <h1 class="mb-4 text-center fs-2">℞ Side Effects and Medication Diagnostics</h1>
@@ -95,20 +98,19 @@ $(function () {
                     term: request.term
                 }, response);
             },
-            minLength: 2
+            minLength: 2,
+            delay: 200
         });
     }
 
-    if ($("#search_type").val()) {
-        setupAutocomplete();
-    }
+    setupAutocomplete(); // always run at start
 
     $("#search_type").on("change", function () {
-        $("#query_input").val("");
-        $("#query_input").autocomplete("destroy");
+        $("#query_input").val("").autocomplete("destroy");
         setupAutocomplete();
     });
 });
+
 </script>
 </body>
 </html>
