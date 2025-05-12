@@ -11,22 +11,25 @@
 
     <!-- Custom font size -->
     <style>
-        body {
+        html, body {
+            margin: 0;
+            padding-top: 70px; /* make room for the fixed banner */
             font-size: 18px;
-            padding-top: 60px;
         }
+    
         @media (max-width: 576px) {
-            body {
+            html, body {
                 font-size: 20px;
             }
         }
-    </style>    
+    </style>
+      
 </head>
 <body class="bg-light">
 
     <header style="height: 56px;">
         <div class="alert alert-info text-center fixed-top fs-6 d-flex align-items-center justify-content-center" role="alert" style="height: 56px; margin: 0; z-index: 1050;">
-          ℹ️ This app is for informational purposes only and is not a substitute for professional medical advice.
+        ⓘ This app is for informational purposes only and is not a substitute for professional medical advice.
         </div>
       </header>
       
